@@ -12,18 +12,19 @@ local game_started = false
 
 function love.load()
 
-
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.window.setMode(VIRTUAL_HEIGHT, VIRTUAL_WIDTH, { resizable = true, minwidth = 400, minheight = 400 })
     love.window.setTitle("Mouse Whomp")
 
     Object = require "classic"
     require "player"
+    require "lives"
     require "food"
     require "foodSpawner"
 
     Player = Player()
     foodSpawner = FoodSpawner(0, 0, VIRTUAL_WIDTH, 10)
+    LivesUI = LivesUI()
 
     start_btn = {}
     start_btn.id = "start"
@@ -97,6 +98,7 @@ function DrawGameScreen()
     love.graphics.print("Score: " .. Player.score, 10, 30)
     foodSpawner:draw()
     Player:draw()
+    LivesUI:draw()
 end
 
 function DrawStartScreen()

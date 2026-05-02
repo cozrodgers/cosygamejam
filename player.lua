@@ -8,6 +8,7 @@ function Player:new()
     self.quad = love.graphics.newQuad(0, 0, spriteSize, spriteSize, self.image:getDimensions())
    
     self.y = 400
+    self.lives = 5
     self.speed = 5
     self.scale = 3
     self.score = 0
