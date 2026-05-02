@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "love",
+        "p",
+        "food"
+    ],
+    "Lua.diagnostics.disable": [
+        "unused-local"
+    ]
+}
