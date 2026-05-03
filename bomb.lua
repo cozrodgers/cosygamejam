@@ -17,7 +17,6 @@ function Bomb:new(x, y)
         Bomb.quad = love.graphics.newQuad(160, 0, 16, 16, imgW, imgH)
     end
 
-
     self.currentFrame = 1
 
     self.quad = Bomb.quad
@@ -32,7 +31,7 @@ end
 
 function Bomb:update(dt)
     -- increment currentFrame
-    local animationSpeed = 4
+    local animationSpeed = 8
     self.currentFrame = self.currentFrame + dt * animationSpeed
     if self.currentFrame >= #self.frames + 1 then
         self.currentFrame = 1
