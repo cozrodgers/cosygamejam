@@ -7,7 +7,7 @@ function ItemSpawner:new(x, y, w, h)
     self.y = y
     self.width = w or 100
     self.height = h or 10
-    self.bombChance = 0.3
+    self.bombChance = 0.7
     self.items = {} -- Table to store spawned items
     return self
 end

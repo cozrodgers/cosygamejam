@@ -1,12 +1,25 @@
 Bomb = Object:extend()
 Bomb.image = nil
 Bomb.quad = nil
+
+Bomb.frames = {}
+
 function Bomb:new(x, y)
+    local frame_width = 16
+    local frame_height = 16
     if Bomb.image == nil then
         Bomb.image = love.graphics.newImage("assets/bomb.png")
         local imgW, imgH = Bomb.image:getDimensions()
+        table.insert(Bomb.frames,
+            love.graphics.newQuad(144, 0, frame_width, frame_height, imgW, imgH))
+        table.insert(Bomb.frames,
+            love.graphics.newQuad(304, 0, frame_width, frame_height, imgW, imgH))
         Bomb.quad = love.graphics.newQuad(160, 0, 16, 16, imgW, imgH)
     end
+
+
+    self.currentFrame = 1
+
     self.quad = Bomb.quad
     self.dead = false
     self.x = x or 0
@@ -18,6 +31,12 @@ function Bomb:new(x, y)
 end
 
 function Bomb:update(dt)
+    -- increment currentFrame
+    local animationSpeed = 4
+    self.currentFrame = self.currentFrame + dt * animationSpeed
+    if self.currentFrame >= #self.frames + 1 then
+        self.currentFrame = 1
+    end
     -- move across the screen to the right
     self.y = self.y + self.speed * dt
 end
@@ -48,6 +67,7 @@ end
 
 function Bomb:draw()
     if self.dead ~= true then
-        love.graphics.draw(self.image, self.quad, self.x, self.y, 0, self.scale, self.scale)
+        love.graphics.draw(self.image, self.frames[math.floor(self.currentFrame)], self.x, self.y, 0, self.scale,
+            self.scale)
     end
 end
