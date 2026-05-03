@@ -48,9 +48,9 @@ function Player:update(dt)
 end
 
 function ProcessMovement(player, dt)
-    if love.keyboard.isDown("left") then
+    if love.keyboard.isDown("a") then
         player.x = player.x - (player.speed * SPEED_FACTOR) * dt
-    elseif love.keyboard.isDown("right") then
+    elseif love.keyboard.isDown("d") then
         player.x = player.x + (player.speed * SPEED_FACTOR) * dt
     end
 end

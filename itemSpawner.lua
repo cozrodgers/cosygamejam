@@ -1,43 +1,47 @@
-FoodSpawner = Object:extend()
+ItemSpawner = Object:extend()
 
-function FoodSpawner:new(x,y,w,h)
+function ItemSpawner:new(x, y, w, h)
     self.spawnTimer = 0
     self.spawnInterval = 2 -- spawn food every 2 seconds
     self.x = x
     self.y = y
     self.width = w or 100
     self.height = h or 10
-    self.foods = {} -- Table to store spawned foods
+    self.items = {} -- Table to store spawned items
+    return self
 end
 
-function FoodSpawner:update(dt)
+function ItemSpawner:spawnItem(dt)
     self.spawnTimer = self.spawnTimer + dt
     if self.spawnTimer >= self.spawnInterval then
-        print("Food counter: ", #self.foods)
+        print("Food counter: ", #self.items)
         self.spawnTimer = 0
         -- spawn new food at the spawner's location
         local newFood = Food()
         newFood.y = self.y
         newFood.x = math.random(self.x, self.x + self.width - newFood.width)
-        table.insert(self.foods, newFood)
+        table.insert(self.items, newFood)
     end
+end
 
-    for i = #self.foods, 1, -1 do
-        local food = self.foods[i]
-        food:update(dt)
+function ItemSpawner:update(dt)
+    ItemSpawner:spawnItem(dt)
+    for i = #self.items, 1, -1 do
+        local items = self.items[i]
+        items:update(dt)
 
         -- if item goes off screen or collides with player, remove it from the table
-        if food.x > VIRTUAL_WIDTH or food:checkCollision(Player) then
-            table.remove(self.foods, i)
+        if items.x > VIRTUAL_WIDTH or items:checkCollision(Player) then
+            table.remove(self.items, i)
         end
     end
 end
 
-function FoodSpawner:draw()
+function ItemSpawner:draw()
     -- love.graphics.setColor(1, 0, 0, 0.5) -- Semi-transparent red
     -- love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     -- love.graphics.setColor(1, 1, 1, 1)   -- Reset
-    for i, food in ipairs(self.foods) do
+    for i, food in ipairs(self.items) do
         food:draw()
     end
 end

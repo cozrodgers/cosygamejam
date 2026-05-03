@@ -6,7 +6,6 @@ local offsetX = 0
 local offsetY = 0
 
 local bgImage
-local foodSpritesheet
 local game_started = false
 
 
@@ -20,10 +19,10 @@ function love.load()
     require "player"
     require "lives"
     require "food"
-    require "foodSpawner"
+    require "itemSpawner"
 
     Player = Player()
-    foodSpawner = FoodSpawner(0, 0, VIRTUAL_WIDTH, 10)
+    ItemSpawner = ItemSpawner(0, 0, VIRTUAL_WIDTH, 10)
     LivesUI = LivesUI()
 
     start_btn = {}
@@ -50,7 +49,7 @@ end
 function love.update(dt)
     if game_started then
         Player:update(dt)
-        foodSpawner:update(dt)
+        ItemSpawner:update(dt)
     end
 end
 
@@ -94,9 +93,9 @@ function DrawGameScreen()
         bgImage:getWidth() / 2,
         bgImage:getHeight() / 2
     )
-    love.graphics.print("Time till next food: " .. (foodSpawner.spawnInterval - foodSpawner.spawnTimer), 10, 10)
+    love.graphics.print("Time till next food: " .. (ItemSpawner.spawnInterval - ItemSpawner.spawnTimer), 10, 10)
     love.graphics.print("Score: " .. Player.score, 10, 30)
-    foodSpawner:draw()
+    ItemSpawner:draw()
     Player:draw()
     LivesUI:draw()
 end
