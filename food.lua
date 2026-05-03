@@ -60,7 +60,6 @@ function Food:checkCollision(obj)
         self.dead = true
         -- add some score
         Player.score = Player.score + 1
-        Player.lives = Player.lives - 1
     end
 end
 

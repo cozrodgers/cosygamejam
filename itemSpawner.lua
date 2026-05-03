@@ -7,31 +7,48 @@ function ItemSpawner:new(x, y, w, h)
     self.y = y
     self.width = w or 100
     self.height = h or 10
+    self.bombChance = 0.3
     self.items = {} -- Table to store spawned items
     return self
 end
 
 function ItemSpawner:spawnItem(dt)
+    -- decide whether to spawn a bomb or food
+
+    -- update timer this frame
     self.spawnTimer = self.spawnTimer + dt
     if self.spawnTimer >= self.spawnInterval then
-        print("Food counter: ", #self.items)
+        print("Item counter: ", #self.items)
         self.spawnTimer = 0
-        -- spawn new food at the spawner's location
-        local newFood = Food()
-        newFood.y = self.y
-        newFood.x = math.random(self.x, self.x + self.width - newFood.width)
-        table.insert(self.items, newFood)
+        -- spawn new item at the spawner's location
+        local rand = math.random()
+        local shouldDropBomb = rand <= self.bombChance
+        print(rand, "random number")
+        print(shouldDropBomb, "should drop bomb")
+        print(self.bombChance, "chance")
+        if (shouldDropBomb == false) then
+            local newFood = Food()
+            newFood.y = self.y
+            newFood.x = math.random(self.x, self.x + self.width - newFood.width)
+            table.insert(self.items, newFood)
+        else
+            local newBomb = Bomb()
+            newBomb.y = self.y
+            newBomb.x = math.random(self.x, self.x + self.width - newBomb.width)
+            table.insert(self.items, newBomb)
+        end
     end
 end
 
 function ItemSpawner:update(dt)
     ItemSpawner:spawnItem(dt)
-    for i = #self.items, 1, -1 do
-        local items = self.items[i]
-        items:update(dt)
 
+    -- loop over the count of items backwards
+    for i = #self.items, 1, -1 do
+        local item = self.items[i]
+        item:update(dt)
         -- if item goes off screen or collides with player, remove it from the table
-        if items.x > VIRTUAL_WIDTH or items:checkCollision(Player) then
+        if item.x > VIRTUAL_WIDTH or item:checkCollision(Player) then
             table.remove(self.items, i)
         end
     end

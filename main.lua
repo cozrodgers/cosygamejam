@@ -19,6 +19,7 @@ function love.load()
     require "player"
     require "lives"
     require "food"
+    require "bomb"
     require "itemSpawner"
 
     Player = Player()
