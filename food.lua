@@ -8,15 +8,11 @@ function Food:new()
         Food.image = love.graphics.newImage("assets/food.png")
         local imgW, imgH = Food.image:getDimensions()
 
-        Food.quads = {
-            love.graphics.newQuad(0, 0, 16, 16, imgW, imgH),
-            love.graphics.newQuad(16, 0, 16, 16, imgW, imgH),
-            love.graphics.newQuad(32, 0, 16, 16, imgW, imgH),
-            love.graphics.newQuad(0, 48, 16, 16, imgW, imgH),
-            love.graphics.newQuad(0, 16, 16, 16, imgW, imgH),
-            love.graphics.newQuad(0, 32, 16, 16, imgW, imgH),
-            love.graphics.newQuad(0, 64, 16, 16, imgW, imgH)
-        }
+        Food.quads = {love.graphics.newQuad(0, 0, 16, 16, imgW, imgH), love.graphics.newQuad(16, 0, 16, 16, imgW, imgH),
+                      love.graphics.newQuad(32, 0, 16, 16, imgW, imgH),
+                      love.graphics.newQuad(0, 48, 16, 16, imgW, imgH),
+                      love.graphics.newQuad(0, 16, 16, 16, imgW, imgH),
+                      love.graphics.newQuad(0, 32, 16, 16, imgW, imgH), love.graphics.newQuad(0, 64, 16, 16, imgW, imgH)}
     end
 
     -- 1.
@@ -28,18 +24,23 @@ function Food:new()
     self.x = 0
     self.y = 300
     self.scale = 3
-    self.speed = 500
+    self.velocity = 500
+    self.gravity = 500 
     self.width = 16 * self.scale
     self.height = 16 * self.scale
 end
 
 function Food:update(dt)
     -- move across the screen to the right
-    self.y = self.y + self.speed * dt
+    -- the higher the Y value, the faster we should fall
+    self.velocity = self.velocity + self.gravity * dt
+    self.y = self.y + self.velocity * dt
+
 end
 
 -- add collision detection to the item so we can tell if the player has grabbed it
 function Food:checkCollision(obj)
+    local offset = 20
     if self.dead then
         return
     end
@@ -53,10 +54,7 @@ function Food:checkCollision(obj)
     local obj_top = obj.y
     local obj_bottom = obj.y + obj.height
 
-    if self_right > obj_left
-        and self_left < obj_right
-        and self_bottom > obj_top
-        and self_top < obj_bottom then
+    if self_right > obj_left and self_left < obj_right and self_bottom - offset > obj_top and self_top < obj_bottom then
         self.dead = true
         -- add some score
         Player.score = Player.score + 1
