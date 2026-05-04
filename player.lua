@@ -11,6 +11,7 @@ function Player:new()
     self.lives = 5
     self.speed = 5
     self.scale = 3
+    self.stars = 0
     self.score = 0
     -- 1. Define your visual padding (empty pixels inside the 32x32 box)
     -- You can tweak these numbers to tighten the hitbox

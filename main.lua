@@ -19,6 +19,7 @@ function love.load()
     require "player"
     require "lives"
     require "food"
+    require "star"
     require "bomb"
     require "itemSpawner"
 
@@ -84,16 +85,16 @@ function CheckCollision(x1, y1, w1, h1, x2, y2, w2, h2)
 end
 
 function DrawGameScreen()
-    love.graphics.draw(
-        bgImage,
-        VIRTUAL_WIDTH / 2,
-        VIRTUAL_HEIGHT / 2,
-        math.pi / 2,
-        2,
-        2,
-        bgImage:getWidth() / 2,
-        bgImage:getHeight() / 2
-    )
+    -- love.graphics.draw(
+    --     bgImage,
+    --     VIRTUAL_WIDTH / 2,
+    --     VIRTUAL_HEIGHT / 2,
+    --     math.pi / 2,
+    --     2,
+    --     2,
+    --     bgImage:getWidth() / 2,
+    --     bgImage:getHeight() / 2
+    -- )
     love.graphics.print("Time till next food: " .. (ItemSpawner.spawnInterval - ItemSpawner.spawnTimer), 10, 10)
     love.graphics.print("Score: " .. Player.score, 10, 30)
     ItemSpawner:draw()
